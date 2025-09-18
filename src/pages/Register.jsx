@@ -1,116 +1,166 @@
-// src/pages/Register.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Register() {
-  const navigate = useNavigate();
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [successModal, setSuccessModal] = useState(false); // 🔹 modal uchun state
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (form.password !== form.confirmPassword) {
+    if (password !== confirmPassword) {
       setError("Parollar mos emas!");
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          login: form.username,
-          email: form.email,
-          password: form.password,
-        }),
+      const res = await axios.post("http://localhost:7000/api/auth/register", {
+        login,
+        email,
+        password,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.msg || "Ro'yxatdan o'tishda xato!");
-        return;
+      if (res.data.success) {
+        setSuccessModal(true); // 🔹 alert o‘rniga modalni yoqamiz
+      } else {
+        setError(res.data.message || "Xatolik yuz berdi");
       }
-
-      // muvaffaqiyatli ro'yxatdan o'tgach Login sahifasiga yo'naltirish
-      navigate("/login");
     } catch (err) {
       console.error(err);
-      setError("Server bilan aloqa qilishda xatolik!");
+      setError("Serverga ulanishda xatolik!");
     }
   };
 
+  const handleGoogleLogin = () => {
+    alert("Google orqali kirish funksiyasi hali ulanmagan 🙂");
+  };
+
+  const closeModal = () => {
+    setSuccessModal(false);
+    navigate("/login"); // 🔹 modal yopilganda login sahifasiga o‘tish
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleRegister}
-        className="bg-white p-8 rounded shadow w-96"
-        autoComplete="off"
-      >
-        <h2 className="text-xl font-bold mb-4">Ro'yxatdan o'tish</h2>
-        {error && <div className="text-red-600 mb-3">{error}</div>}
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-lg p-8">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Ro‘yxatdan o‘tish
+        </h2>
 
-        <input
-          name="username"
-          value={form.username}
-          onChange={handleChange}
-          placeholder="Login"
-          className="w-full p-2 border rounded mb-3"
-          autoComplete="off"
-        />
-        <input
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email"
-          type="email"
-          className="w-full p-2 border rounded mb-3"
-          autoComplete="off"
-        />
-        <input
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Parol"
-          type="password"
-          className="w-full p-2 border rounded mb-3"
-          autoComplete="new-password"
-        />
-        <input
-          name="confirmPassword"
-          value={form.confirmPassword}
-          onChange={handleChange}
-          placeholder="Parolni tasdiqlash"
-          type="password"
-          className="w-full p-2 border rounded mb-4"
-          autoComplete="new-password"
-        />
+        {error && (
+          <p className="text-red-500 text-center text-sm mb-4">{error}</p>
+        )}
 
-        <button className="w-full py-2 bg-green-600 text-white rounded">
-          Ro'yxatdan o'tish
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Login
+            </label>
+            <input
+              type="text"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
+              required
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Parol
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Parolni tasdiqlang
+            </label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+          >
+            Ro‘yxatdan o‘tish
+          </button>
+        </form>
+
+        <button
+          onClick={handleGoogleLogin}
+          className="mt-4 w-full flex items-center justify-center border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition"
+        >
+          <img
+            src="https://www.svgrepo.com/show/355037/google.svg"
+            alt="Google"
+            className="w-5 h-5 mr-2"
+          />
+          Google orqali kirish
         </button>
 
-        <p className="mt-4 text-sm text-center">
+        <p className="text-sm text-gray-600 text-center mt-4">
           Akkountingiz bormi?{" "}
-          <span
-            className="text-blue-600 cursor-pointer"
-            onClick={() => navigate("/login")}
+          <Link
+            to="/login"
+            className="text-indigo-600 hover:underline font-medium"
           >
-            Kirish
-          </span>
+            Tizimga kiring
+          </Link>
         </p>
-      </form>
+      </div>
+
+      {/* 🔹 Success Modal */}
+      {successModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">
+              Ro‘yxatdan muvaffaqiyatli o‘tdingiz!
+            </h3>
+            <p className="text-sm text-gray-600 mb-5">
+              Endi tizimga kiring.
+            </p>
+            <button
+              onClick={closeModal}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
