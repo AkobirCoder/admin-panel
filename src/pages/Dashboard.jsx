@@ -16,8 +16,9 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    navigate("/login");
+    navigate("/"); // ✅ foydalanuvchini Landing page ga qaytaradi
   };
+
 
   if (!user) return null;
 
