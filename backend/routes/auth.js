@@ -5,14 +5,19 @@ const User = require('../models/User');
 // 📌 Register (foydalanuvchi qo‘shish)
 router.post('/register', async (req, res) => {
   try {
-    const { login, password } = req.body;
+    const { login, email, password } = req.body;
 
-    const existingUser = await User.findOne({ login });
+    // 🔎 Login yoki email bo‘yicha tekshirish
+    const existingUser = await User.findOne({ $or: [{ login }, { email }] });
     if (existingUser) {
-      return res.status(400).json({ success: false, message: "Bu login oldin ro‘yxatdan o‘tgan" });
+      return res.status(400).json({ 
+        success: false, 
+        message: "Bunday login yoki email allaqachon ro‘yxatdan o‘tgan" 
+      });
     }
 
-    const newUser = new User({ login, password });
+    // ✍️ Yangi user yaratish
+    const newUser = new User({ login, email, password });
     await newUser.save();
 
     res.status(201).json({ 
@@ -30,11 +35,13 @@ router.post('/login', async (req, res) => {
   try {
     const { login, password } = req.body;
 
+    // 🔎 Login bo‘yicha qidirish
     const user = await User.findOne({ login });
     if (!user) {
       return res.status(404).json({ success: false, message: "User topilmadi" });
     }
 
+    // 🔑 Parolni tekshirish
     if (user.password !== password) {
       return res.status(401).json({ success: false, message: "Parol noto‘g‘ri" });
     }
@@ -48,6 +55,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: "Xatolik yuz berdi", error });
   }
 });
-
 
 module.exports = router;
