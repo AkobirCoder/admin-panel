@@ -16,5 +16,5 @@ mongoose.connect("mongodb://127.0.0.1:27017/adminpanel")
   .catch(err => console.error(err));
 
 // Serverni ishga tushirish
-const PORT = 5000;
+const PORT = 7000;
 app.listen(PORT, () => console.log(`Server ${PORT} portda ishlayapti`));
