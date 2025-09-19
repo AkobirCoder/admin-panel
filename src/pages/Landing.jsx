@@ -14,8 +14,8 @@ export default function Landing({ loggedIn }) {
           <nav className="flex space-x-6 items-center">
             <Link to="/" className="hover:text-indigo-600">Bosh sahifa</Link>
             <Link to="/dashboard" className="hover:text-indigo-600">Dashboard</Link>
-            <Link to="/login" className="hover:text-indigo-600">Login</Link>
-            <Link to="/register" className="hover:text-indigo-600">Register</Link>
+            <Link to="/login" className="hover:text-indigo-600">Kirish</Link>
+            <Link to="/register" className="hover:text-indigo-600">Ro'yxatdan o'tish</Link>
           </nav>
         </div>
       </header>
@@ -26,7 +26,7 @@ export default function Landing({ loggedIn }) {
           Qulay va xavfsiz foydalanuvchi tizimi
         </h1>
         <p className="max-w-2xl text-lg mb-8 opacity-90">
-          Ro‘yxatdan o‘ting yoki tizimga kiring va siz uchun mo‘ljallangan barcha xizmatlardan foydalaning.
+          Ro'yxatdan o'ting yoki tizimga kiring va siz uchun mo'ljallangan barcha xizmatlardan foydalaning.
         </p>
         <div className="flex space-x-4">
           <Link
@@ -60,12 +60,12 @@ export default function Landing({ loggedIn }) {
             },
             {
               title: "Yangiliklar",
-              desc: "So‘nggi yangiliklardan doimiy xabardor bo‘ling.",
+              desc: "So'nggi yangiliklardan doimiy xabardor bo'ling.",
               img: "https://picsum.photos/600/300?random=12",
             },
             {
               title: "Aloqa",
-              desc: "Savollaringiz bo‘lsa, biz bilan bog‘lanishingiz mumkin.",
+              desc: "Savollaringiz bo'lsa, biz bilan bog'lanishingiz mumkin.",
               img: "https://picsum.photos/600/300?random=13",
             },
           ].map((card, i) => (
@@ -95,15 +95,15 @@ export default function Landing({ loggedIn }) {
 
       {/* Call to Action */}
       <section className="bg-indigo-600 py-16 text-center text-white">
-        <h2 className="text-3xl font-bold mb-4">Bugun ro‘yxatdan o‘ting</h2>
+        <h2 className="text-3xl font-bold mb-4">Bugun ro'yxatdan o'ting</h2>
         <p className="mb-6 opacity-90">
-          Ro‘yxatdan o‘tib, tizimning barcha imkoniyatlaridan foydalaning.
+          Ro'yxatdan o'tib, tizimning barcha imkoniyatlaridan foydalaning.
         </p>
         <Link
           to="/register"
           className="px-8 py-3 bg-white text-indigo-600 font-medium rounded-lg shadow hover:bg-gray-100 transition"
         >
-          Ro‘yxatdan o‘tish
+          Ro'yxatdan o'tish
         </Link>
       </section>
 
