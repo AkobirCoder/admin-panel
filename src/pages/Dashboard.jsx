@@ -8,7 +8,7 @@ export default function Dashboard() {
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
     if (!savedUser) {
-      navigate("/login"); // foydalanuvchi yo'q bo‘lsa qaytarib yuboradi
+      navigate("/login"); // foydalanuvchi yo'q bo'lsa qaytarib yuboradi
     } else {
       setUser(savedUser);
     }
@@ -16,7 +16,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    navigate("/"); // ✅ foydalanuvchini Landing page ga qaytaradi
+    navigate("/"); // foydalanuvchini Landing page ga qaytaradi
   };
 
 
