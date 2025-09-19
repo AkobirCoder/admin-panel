@@ -1,158 +1,7 @@
-// import React, { useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
-// import axios from "axios";
-
-// export default function Register() {
-//   const [login, setLogin] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [confirmPassword, setConfirmPassword] = useState("");
-//   const [error, setError] = useState("");
-//   const [successModal, setSuccessModal] = useState(false); // 🔹 modal uchun state
-//   const navigate = useNavigate();
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setError("");
-
-//     if (password !== confirmPassword) {
-//       setError("Parollar mos emas!");
-//       return;
-//     }
-
-//     try {
-//       const res = await axios.post("http://localhost:7000/api/auth/register", {
-//         login,
-//         email,
-//         password,
-//       });
-
-//       if (res.data.success) {
-//         setSuccessModal(true); // 🔹 alert o‘rniga modalni yoqamiz
-//       } else {
-//         setError(res.data.message || "Xatolik yuz berdi");
-//       }
-//     } catch (err) {
-//       console.error(err);
-//       setError("Serverga ulanishda xatolik!");
-//     }
-//   };
-
-//   const closeModal = () => {
-//     setSuccessModal(false);
-//     navigate("/login"); // 🔹 modal yopilganda login sahifasiga o‘tish
-//   };
-
-//   return (
-//     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-//       <div className="w-full max-w-md bg-white shadow-xl rounded-lg p-8">
-//         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-//           Ro‘yxatdan o‘tish
-//         </h2>
-
-//         {error && (
-//           <p className="text-red-500 text-center text-sm mb-4">{error}</p>
-//         )}
-
-//         <form onSubmit={handleSubmit} className="space-y-5">
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700">
-//               Login
-//             </label>
-//             <input
-//               type="text"
-//               value={login}
-//               onChange={(e) => setLogin(e.target.value)}
-//               required
-//               className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700">
-//               Email
-//             </label>
-//             <input
-//               type="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               required
-//               className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700">
-//               Parol
-//             </label>
-//             <input
-//               type="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               required
-//               className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//             />
-//           </div>
-
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700">
-//               Parolni tasdiqlang
-//             </label>
-//             <input
-//               type="password"
-//               value={confirmPassword}
-//               onChange={(e) => setConfirmPassword(e.target.value)}
-//               required
-//               className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//             />
-//           </div>
-
-//           <button
-//             type="submit"
-//             className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
-//           >
-//             Ro‘yxatdan o‘tish
-//           </button>
-//         </form>
-        
-//         <p className="text-sm text-gray-600 text-center mt-4">
-//           Akkountingiz bormi?{" "}
-//           <Link
-//             to="/login"
-//             className="text-indigo-600 hover:underline font-medium"
-//           >
-//             Tizimga kiring
-//           </Link>
-//         </p>
-//       </div>
-
-//       {/* 🔹 Success Modal */}
-//       {successModal && (
-//         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-//           <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
-//             <h3 className="text-lg font-semibold text-gray-800 mb-3">
-//               Ro‘yxatdan muvaffaqiyatli o‘tdingiz!
-//             </h3>
-//             <p className="text-sm text-gray-600 mb-5">
-//               Endi tizimga kiring.
-//             </p>
-//             <button
-//               onClick={closeModal}
-//               className="bg-indigo-600 text-white px-2 py-2 rounded-lg hover:bg-indigo-700 transition"
-//             >
-//               OK
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import ErrorModal from "../components/ErrorModal";
 
 export default function Register() {
   const [login, setLogin] = useState("");
@@ -220,12 +69,12 @@ export default function Register() {
         {/* Form oyna */}
         <div className="relative w-full max-w-md bg-white/30 backdrop-blur-xl shadow-xl rounded-lg p-8">
           <h2 className="text-3xl font-bold text-center text-white mb-6">
-            Ro‘yxatdan o‘tish
+            Ro'yxatdan o'tish
           </h2>
 
-          {error && (
+          {/* {error && (
             <p className="text-red-400 text-center text-sm mb-4">{error}</p>
-          )}
+          )} */}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -300,18 +149,26 @@ export default function Register() {
               type="submit"
               className="w-full bg-indigo-600/80 hover:bg-indigo-700/90 text-white py-2 rounded-lg transition font-medium"
             >
-              Ro‘yxatdan o‘tish
+              Ro'yxatdan o'tish
             </button>
           </form>
 
           <p className="text-sm text-gray-200 text-center mt-4">
-            Akkountingiz bormi?{" "}
+            Akkountingiz bormi?{" | "}
             <Link
               to="/login"
               className="text-indigo-600 hover:underline font-medium"
             >
               Tizimga kiring
             </Link>
+            <div className="mt-4">
+              <Link
+                to="/"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                Bosh sahifaga qayting
+              </Link>
+            </div>
           </p>
         </div>
       </div>
@@ -321,7 +178,7 @@ export default function Register() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">
-              Ro‘yxatdan muvaffaqiyatli o‘tdingiz!
+              Ro'yxatdan muvaffaqiyatli o'tdingiz!
             </h3>
             <p className="text-sm text-gray-600 mb-5">Endi tizimga kiring.</p>
             <button
@@ -332,6 +189,20 @@ export default function Register() {
             </button>
           </div>
         </div>
+      )}
+
+      {error && (
+        <ErrorModal
+          message={error}
+          onClose={() => setError("")}
+          onRetry={() => {
+            setError("");
+            setLogin("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+          }}
+        />
       )}
     </div>
   );
