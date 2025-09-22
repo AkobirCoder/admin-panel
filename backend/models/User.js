@@ -1,14 +1,3 @@
-// const mongoose = require('mongoose');
-
-// const UserSchema = new mongoose.Schema({
-//   login: { type: String, required: true, unique: true },
-//   email: { type: String, required: true, unique: true },
-//   password: { type: String, required: true }
-// });
-
-// module.exports = mongoose.model('User', UserSchema);
-
-
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
@@ -17,7 +6,7 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
   },
-  { timestamps: true } // 👉 createdAt va updatedAt avtomatik qo‘shiladi
+  { timestamps: true } // createdAt va updatedAt avtomatik qo‘shiladi
 );
 
 module.exports = mongoose.model("User", UserSchema);
