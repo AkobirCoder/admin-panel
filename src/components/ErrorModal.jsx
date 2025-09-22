@@ -1,4 +1,3 @@
-// src/components/ErrorModal.jsx
 import React from "react";
 
 export default function ErrorModal({ message, onClose, onRetry }) {
