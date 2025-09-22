@@ -1,62 +1,9 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import { io } from "socket.io-client";
-
-// export default function AdminPanel() {
-//   const [users, setUsers] = useState([]);
-
-//   useEffect(() => {
-//     // 🚀 Boshlang‘ich userlarni olish
-//     axios.get("http://localhost:7000/api/auth/users").then((res) => {
-//       setUsers(res.data);
-//     });
-
-//     // 🚀 Socket ulash
-//     const socket = io("http://localhost:7000");
-
-//     socket.on("newUser", (user) => {
-//       setUsers((prev) => [...prev, user]);
-//     });
-
-//     return () => {
-//       socket.disconnect();
-//     };
-//   }, []);
-
-//   return (
-//     <div className="p-8 bg-gray-100 min-h-screen">
-//       <h1 className="text-2xl font-bold mb-6">👨‍💼 Admin Panel</h1>
-//       <div className="bg-white shadow rounded-lg overflow-hidden">
-//         <table className="min-w-full table-auto">
-//           <thead className="bg-indigo-600 text-white">
-//             <tr>
-//               <th className="px-4 py-2">#</th>
-//               <th className="px-4 py-2">Login</th>
-//               <th className="px-4 py-2">Email</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {users.map((user, i) => (
-//               <tr key={user._id} className="border-b hover:bg-gray-50">
-//                 <td className="px-4 py-2">{i + 1}</td>
-//                 <td className="px-4 py-2">{user.login}</td>
-//                 <td className="px-4 py-2">{user.email}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { FaUsers, FaUserShield, FaCog, FaBars } from "react-icons/fa";
 
-// 🔹 Users sahifasi
+// Users sahifasi
 function Users() {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -154,7 +101,7 @@ function Users() {
   );
 }
 
-// 🔹 Rollar sahifasi
+// Rollar sahifasi
 function Roles() {
   return (
     <div>
@@ -166,7 +113,7 @@ function Roles() {
   );
 }
 
-// 🔹 Sozlamalar sahifasi
+// Sozlamalar sahifasi
 function Settings() {
   return (
     <div>
@@ -176,7 +123,7 @@ function Settings() {
   );
 }
 
-// 🔹 Asosiy Admin Panel
+// Asosiy Admin Panel
 export default function AdminPanel() {
   const [activePage, setActivePage] = useState("users");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -281,7 +228,7 @@ export default function AdminPanel() {
 
       {/* Content */}
       <main
-        className={`flex-1 p-10 bg-gray-100 min-h-screen transition-all duration-300 ${
+        className={`flex-1 px-10 py-7 bg-gray-100 min-h-screen transition-all duration-300 ${
           isSidebarOpen ? "ml-64" : "ml-20"
         }`}
       >
