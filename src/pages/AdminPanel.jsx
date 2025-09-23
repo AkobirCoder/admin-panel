@@ -69,7 +69,7 @@ function Users() {
             ) : (
               <tr>
                 <td colSpan="3" className="px-6 py-6 text-center text-gray-500 italic">
-                  Hozircha foydalanuvchi yo‘q
+                  Hozircha foydalanuvchi yo'q
                 </td>
               </tr>
             )}
@@ -107,7 +107,7 @@ function Roles() {
     <div>
       <h1 className="text-2xl font-bold mb-6 text-gray-700">Rollar</h1>
       <p className="text-gray-600">
-        Bu yerda rollarni boshqarish funksiyasi bo‘ladi.
+        Bu yerda rollarni boshqarish funksiyasi bo'ladi.
       </p>
     </div>
   );
@@ -137,7 +137,7 @@ export default function AdminPanel() {
       case "settings":
         return <Settings />;
       default:
-        return <p className="text-gray-500">Bo‘limni tanlang</p>;
+        return <p className="text-gray-500">Bo'limni tanlang</p>;
     }
   };
 
