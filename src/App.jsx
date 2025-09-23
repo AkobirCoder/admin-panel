@@ -4,7 +4,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import AdminPanel from "./pages/AdminPanel"; // ✅ admin qo‘shildi
+import AdminPanel from "./pages/AdminPanel";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -16,8 +16,6 @@ export default function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
-
-        {/* ✅ Admin sahifa */}
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </Router>
