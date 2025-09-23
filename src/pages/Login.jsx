@@ -29,7 +29,17 @@ export default function Login() {
       }
     } catch (err) {
       console.error(err);
-      setError("Serverga ulanishda xato!");
+
+      if (err.response && err.response.data) {
+        // server javob qaytargan bo‘lsa (masalan 401, 404)
+        setError(err.response.data.message || "Login yoki parol xato!");
+      } else if (err.request) {
+        // so‘rov yuborildi lekin javob yo‘q (server o‘chgan bo‘lishi mumkin)
+        setError("Serverga ulanishda xatolik! Iltimos, keyinroq urinib ko‘ring.");
+      } else {
+        // boshqa (kutilmagan) xatolar
+        setError("Xatolik yuz berdi!");
+      }
     }
   };
 
@@ -91,7 +101,7 @@ export default function Login() {
                 placeholder="Parol kiriting"
               />
 
-              {/* 👁️ Toggle button */}
+              {/* Toggle button - password */}
               <span
                 className="absolute right-3 top-9 cursor-pointer text-gray-300 hover:text-white"
                 onClick={() => setShowPassword(!showPassword)}
