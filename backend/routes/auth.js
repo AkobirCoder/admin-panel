@@ -1,18 +1,22 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+
+// Parol qoidalari
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 // Barcha userlarni olish (pagination bilan)
 router.get("/users", async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;   // hozirgi sahifa
-    const limit = parseInt(req.query.limit) || 10; // nechta chiqishi kerak
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    // foydalanuvchilarni oxiridan boshlab olish
     const totalUsers = await User.countDocuments();
     const users = await User.find()
-      .sort({ createdAt: -1 }) // eng oxirgi user 1-qator bo‘lib kelsin
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -33,6 +37,7 @@ router.post("/register", async (req, res) => {
   try {
     const { login, email, password } = req.body;
 
+    // user mavjudligini tekshirish
     const existingUser = await User.findOne({ $or: [{ login }, { email }] });
     if (existingUser) {
       return res
@@ -40,11 +45,22 @@ router.post("/register", async (req, res) => {
         .json({ success: false, message: "Bunday login yoki email allaqachon mavjud" });
     }
 
-    const newUser = new User({ login, email, password });
+    // Parol validatsiyasi
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Parol kamida 8 ta belgidan iborat bo'lishi, katta-kichik harf, raqam va maxsus belgi o'z ichiga olishi kerak!",
+      });
+    }
+
+    // parolni hash qilish
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ login, email, password: hashedPassword });
     await newUser.save();
 
-    // 🔥 Admin panelga yangi userni yuborish (real-time)
-    req.io.emit("newUser", newUser);
+    if (req.io) req.io.emit("newUser", newUser);
 
     res.status(201).json({ success: true, user: newUser });
   } catch (error) {
@@ -62,7 +78,9 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ success: false, message: "User topilmadi" });
     }
 
-    if (user.password !== password) {
+    // parolni solishtirish
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.status(401).json({ success: false, message: "Parol noto'g'ri" });
     }
 
