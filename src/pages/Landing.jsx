@@ -13,7 +13,7 @@ export default function Landing({ loggedIn }) {
           </Link>
           <nav className="flex space-x-6 items-center">
             <Link to="/" className="hover:text-indigo-600">Bosh sahifa</Link>
-            <Link to="/dashboard" className="hover:text-indigo-600">Dashboard</Link>
+            {/* <Link to="/dashboard" className="hover:text-indigo-600">Dashboard</Link> */}
             <Link to="/login" className="hover:text-indigo-600">Kirish</Link>
             <Link to="/register" className="hover:text-indigo-600">Ro'yxatdan o'tish</Link>
           </nav>
@@ -114,9 +114,9 @@ export default function Landing({ loggedIn }) {
             © {new Date().getFullYear()} Barcha huquqlar himoyalangan.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/dashboard" className="hover:text-white">Dashboard</Link>
-            <Link to="/login" className="hover:text-white">Login</Link>
-            <Link to="/register" className="hover:text-white">Register</Link>
+            {/* <Link to="/dashboard" className="hover:text-white">Dashboard</Link> */}
+            <Link to="/login" className="hover:text-white">Kirish</Link>
+            <Link to="/register" className="hover:text-white">Ro'yxatdan o'tish</Link>
           </div>
         </div>
       </footer>
