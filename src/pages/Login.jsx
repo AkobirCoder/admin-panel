@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorModal from "../components/ErrorModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export default function Login() {
   const [login, setLogin] = useState("");
@@ -55,7 +55,7 @@ export default function Login() {
         {/* Chap tomon – Rasm */}
         <div className="hidden md:flex w-1/2 items-center justify-center">
           <img
-            src="/login.jpg"
+            src="/register-login.jpg"
             alt="Login Illustration"
             className="w-full h-full object-cover"
           />
@@ -65,7 +65,7 @@ export default function Login() {
         <div className="flex w-full md:w-1/2 items-center justify-center relative">
           {/* Orqa fon rasm */}
           <img
-            src="/login.jpg"
+            src="/register-login.jpg"
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -74,7 +74,7 @@ export default function Login() {
 
           {/* Form oyna */}
           <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
-            <h2 className="text-3xl font-bold text-center text-white mb-6">
+            <h2 className="text-3xl font-medium text-center text-white mb-6">
               Tizimga kirish
             </h2>
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -129,14 +129,14 @@ export default function Login() {
               Akkountingiz yo'qmi?{" | "}
               <Link
                 to="/register"
-                className="text-indigo-600 hover:underline font-medium"
+                className="text-indigo-700 hover:underline font-medium"
               >
                 Ro'yxatdan o'ting
               </Link>
               <div className="mt-4">
                 <Link
                   to="/"
-                  className="text-indigo-600 hover:underline font-medium"
+                  className="text-indigo-700 hover:underline font-medium"
                 >
                   Bosh sahifaga qayting    
                 </Link>
