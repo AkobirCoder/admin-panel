@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorModal from "../components/ErrorModal";
 import { FaCheckCircle, FaTimesCircle, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export default function Register() {
   const [login, setLogin] = useState("");
@@ -74,7 +74,7 @@ export default function Register() {
         {/* Chap tomon – Rasm */}
         <div className="hidden md:flex w-1/2 items-center justify-center">
           <img
-            src="/login.jpg"
+            src="/register-login.jpg"
             alt="Register Illustration"
             className="w-full h-full object-cover"
           />
@@ -84,7 +84,7 @@ export default function Register() {
         <div className="flex w-full md:w-1/2 items-center justify-center relative">
           {/* Orqa fon */}
           <img
-            src="/login.jpg"
+            src="/register-login.jpg"
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -92,7 +92,7 @@ export default function Register() {
 
           {/* Form */}
           <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
-            <h2 className="text-3xl font-bold text-center text-white mb-6">
+            <h2 className="text-3xl font-medium text-center text-white mb-6">
               Ro'yxatdan o'tish
             </h2>
 
@@ -219,11 +219,11 @@ export default function Register() {
             {/* Pastki linklar */}
             <p className="text-sm text-gray-200 text-center mt-4">
               Akkountingiz bormi?{" | "}
-              <Link to="/login" className="text-indigo-600 hover:underline font-medium">
+              <Link to="/login" className="text-indigo-700 hover:underline font-medium">
                 Tizimga kiring
               </Link>
               <div className="mt-4">
-                <Link to="/" className="text-indigo-600 hover:underline font-medium">
+                <Link to="/" className="text-indigo-700 hover:underline font-medium">
                   Bosh sahifaga qayting
                 </Link>
               </div>
