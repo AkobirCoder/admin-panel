@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorModal from "../components/ErrorModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 export default function Login() {
   const [login, setLogin] = useState("");
@@ -44,111 +45,118 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Chap tomon – Rasm */}
-      <div className="hidden md:flex w-1/2 items-center justify-center">
-        <img
-          src="/login.jpg"
-          alt="Login Illustration"
-          className="w-full h-full object-cover"
-        />
-      </div>
+    <div>
+      <Helmet>
+        <title>
+          Bilim.ac - Kirish
+        </title>
+      </Helmet>
+      <div className="flex h-screen">
+        {/* Chap tomon – Rasm */}
+        <div className="hidden md:flex w-1/2 items-center justify-center">
+          <img
+            src="/login.jpg"
+            alt="Login Illustration"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      {/* O'ng tomon – Login form shaffof fon bilan */}
-      <div className="flex w-full md:w-1/2 items-center justify-center relative">
-        {/* Orqa fon rasm */}
-        <img
-          src="/login.jpg"
-          alt="Background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Shaffof overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
+        {/* O'ng tomon – Login form shaffof fon bilan */}
+        <div className="flex w-full md:w-1/2 items-center justify-center relative">
+          {/* Orqa fon rasm */}
+          <img
+            src="/login.jpg"
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Shaffof overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
 
-        {/* Form oyna */}
-        <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
-            Tizimga kirish
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-white">Login</label>
-              <input
-                type="text"
-                value={login}
-                onChange={(e) => setLogin(e.target.value)}
-                required
-                className="mt-1 w-full px-3 py-2 rounded-lg shadow-sm 
-                          bg-white/20 text-white placeholder-gray-300
-                          focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 
-                          outline-none transition sm:text-sm"
-                placeholder="Login kiriting"
-              />
-            </div>
+          {/* Form oyna */}
+          <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
+            <h2 className="text-3xl font-bold text-center text-white mb-6">
+              Tizimga kirish
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-white">Login</label>
+                <input
+                  type="text"
+                  value={login}
+                  onChange={(e) => setLogin(e.target.value)}
+                  required
+                  className="mt-1 w-full px-3 py-2 rounded-lg shadow-sm 
+                            bg-white/20 text-white placeholder-gray-300
+                            focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 
+                            outline-none transition sm:text-sm"
+                  placeholder="Login kiriting"
+                />
+              </div>
 
-            {/* Parol */}
-            <div className="relative">
-              <label className="block text-sm font-medium text-white">Parol</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-1 w-full px-3 py-2 rounded-lg shadow-sm 
-                          bg-white/20 text-white placeholder-gray-300
-                          focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 
-                          outline-none transition sm:text-sm pr-10"
-                placeholder="Parol kiriting"
-              />
+              {/* Parol */}
+              <div className="relative">
+                <label className="block text-sm font-medium text-white">Parol</label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="mt-1 w-full px-3 py-2 rounded-lg shadow-sm 
+                            bg-white/20 text-white placeholder-gray-300
+                            focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 
+                            outline-none transition sm:text-sm pr-10"
+                  placeholder="Parol kiriting"
+                />
 
-              {/* Toggle button - password */}
-              <span
-                className="absolute right-3 top-9 cursor-pointer text-gray-300 hover:text-white"
-                onClick={() => setShowPassword(!showPassword)}
+                {/* Toggle button - password */}
+                <span
+                  className="absolute right-3 top-9 cursor-pointer text-gray-300 hover:text-white"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-indigo-600/80 hover:bg-indigo-700/90 text-white py-2 rounded-lg transition font-medium"
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
+                Kirish
+              </button>
+            </form>
 
-            <button
-              type="submit"
-              className="w-full bg-indigo-600/80 hover:bg-indigo-700/90 text-white py-2 rounded-lg transition font-medium"
-            >
-              Kirish
-            </button>
-          </form>
-
-          <p className="text-sm text-gray-200 text-center mt-4">
-            Akkountingiz yo'qmi?{" | "}
-            <Link
-              to="/register"
-              className="text-indigo-600 hover:underline font-medium"
-            >
-              Ro'yxatdan o'ting
-            </Link>
-            <div className="mt-4">
+            <p className="text-sm text-gray-200 text-center mt-4">
+              Akkountingiz yo'qmi?{" | "}
               <Link
-                to="/"
+                to="/register"
                 className="text-indigo-600 hover:underline font-medium"
               >
-                Bosh sahifaga qayting    
+                Ro'yxatdan o'ting
               </Link>
-            </div>
-          </p>
+              <div className="mt-4">
+                <Link
+                  to="/"
+                  className="text-indigo-600 hover:underline font-medium"
+                >
+                  Bosh sahifaga qayting    
+                </Link>
+              </div>
+            </p>
+          </div>
         </div>
-      </div>
 
-      {error && (
-        <ErrorModal
-          message={error}
-          onClose={() => setError("")}
-          onRetry={() => {
-            setError("");
-            setLogin("");
-            setPassword("");
-          }}
-        />
-      )}
+        {error && (
+          <ErrorModal
+            message={error}
+            onClose={() => setError("")}
+            onRetry={() => {
+              setError("");
+              setLogin("");
+              setPassword("");
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }
