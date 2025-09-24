@@ -8,8 +8,8 @@ export default function Landing({ loggedIn }) {
       {/* Navbar */}
       <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold text-indigo-600">
-            AdminPanel
+          <Link to="/" className="text-3xl font-bold text-indigo-600">
+            Bilim.ac
           </Link>
           <nav className="flex space-x-6 items-center">
             <Link to="/" className="hover:text-indigo-600">Bosh sahifa</Link>
