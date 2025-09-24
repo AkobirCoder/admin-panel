@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { FaUsers, FaUserShield, FaCog, FaBars } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 // Users sahifasi
 function Users() {
@@ -42,6 +43,11 @@ function Users() {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          Admin Panel
+        </title>
+      </Helmet>
       <h1 className="text-2xl font-bold mb-6 text-gray-700">Foydalanuvchilar</h1>
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
