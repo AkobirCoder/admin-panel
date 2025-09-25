@@ -69,7 +69,7 @@ export default function Users() {
             ) : (
               <tr>
                 <td colSpan="3" className="px-6 py-6 text-center text-gray-500 italic">
-                  Hozircha foydalanuvchi yo‘q
+                  Hozircha foydalanuvchi yo'q
                 </td>
               </tr>
             )}
