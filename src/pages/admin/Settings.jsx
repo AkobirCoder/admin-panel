@@ -33,7 +33,7 @@ export default function Settings() {
             onChange={(e) => setLanguage(e.target.value)}
             className="mt-1 border px-3 py-2 rounded w-full"
           >
-            <option value="uz">O‘zbekcha</option>
+            <option value="uz">O'zbekcha</option>
             <option value="ru">Русский</option>
             <option value="en">English</option>
           </select>
