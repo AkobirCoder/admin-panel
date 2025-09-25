@@ -50,11 +50,6 @@ export default function Landing({ loggedIn }) {
               Tizimga kirish
             </Link>
           </div>
-          {loggedIn && (
-            <p className="mt-6 font-semibold text-green-300">
-              ✅ Siz tizimga kirdingiz
-            </p>
-          )}
         </section>
 
         {/* Features Section */}
