@@ -32,11 +32,11 @@ export default function Login() {
       console.error(err);
 
       if (err.response && err.response.data) {
-        // server javob qaytargan bo‘lsa (masalan 401, 404)
+        // server javob qaytargan bo'lsa (masalan 401, 404)
         setError(err.response.data.message || "Login yoki parol xato!");
       } else if (err.request) {
-        // so‘rov yuborildi lekin javob yo‘q (server o‘chgan bo‘lishi mumkin)
-        setError("Serverga ulanishda xatolik! Iltimos, keyinroq urinib ko‘ring.");
+        // so'rov yuborildi lekin javob yo'q (server o'chgan bo'lishi mumkin)
+        setError("Serverga ulanishda xatolik! Iltimos, keyinroq urinib ko'ring.");
       } else {
         // boshqa (kutilmagan) xatolar
         setError("Xatolik yuz berdi!");
