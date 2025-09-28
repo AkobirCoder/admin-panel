@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-export default function Dashboard() {
-  const [user, setUser] = useState(null);
+export default function Dashboard({ user, setUser }) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-    if (!savedUser) {
-      navigate("/login"); // foydalanuvchi yo'q bo'lsa qaytarib yuboradi
-    } else {
-      setUser(savedUser);
-    }
-  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    navigate("/login"); // foydalanuvchini Landing page ga qaytaradi
+    setUser(null);
+    navigate("/login");
   };
 
+  const goToProfile = () => {
+    navigate("/dashboard/profile");
+  };
 
   if (!user) return null;
 
@@ -30,43 +24,15 @@ export default function Dashboard() {
           Bilim.ac - Dashboard
         </title>
       </Helmet>
-      <div className="min-h-screen bg-gray-50">
-        {/* Navbar */}
-        <header className="bg-indigo-600 text-white shadow">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 className="text-xl font-bold">Dashboard</h1>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition"
-            >
-              Chiqish
-            </button>
-          </div>
-        </header>
-
-        {/* Welcome section */}
-        <main className="max-w-7xl mx-auto px-6 py-10">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-6">
-            Xush kelibsiz, {user.login}!
-          </h2>
-
-          {/* Dashboard stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-700">Foydalanuvchilar</h3>
-              <p className="text-3xl font-bold mt-2 text-indigo-600">120</p>
-            </div>
-            <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-700">Buyurtmalar</h3>
-              <p className="text-3xl font-bold mt-2 text-green-600">85</p>
-            </div>
-            <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-700">Daromad</h3>
-              <p className="text-3xl font-bold mt-2 text-yellow-600">$12,340</p>
-            </div>
-          </div>
-        </main>
+      <div className="min-h-screen p-8">
+        <h1 className="text-3xl mb-4">Dashboard</h1>
+        <p>Xush kelibsiz, {user.login}!</p>
+        <div className="mt-4 flex gap-4">
+          <button onClick={goToProfile} className="bg-green-500 text-white p-2 rounded">Profilim</button>
+          <button onClick={handleLogout} className="bg-red-500 text-white p-2 rounded">Chiqish</button>
+        </div>
       </div>
     </div>
+    
   );
 }
