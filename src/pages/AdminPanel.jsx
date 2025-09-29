@@ -36,7 +36,7 @@ export default function AdminPanel() {
           }`}
         >
           <span
-            className={`font-bold text-lg whitespace-nowrap overflow-hidden transition-all duration-300 ${
+            className={`font-medium text-lg whitespace-nowrap overflow-hidden transition-all duration-300 ${
               isSidebarOpen ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0"
             }`}
           >
