@@ -61,13 +61,22 @@ export default function Users() {
               <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
                 Role
               </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                Yosh
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                Tavsif
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                Manzil
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {users.length > 0 ? (
               users.map((user, i) => (
                 <tr
-                  key={user._id || i} // ✅ key xatosi tuzatildi
+                  key={user._id || i} // key xatosi tuzatildi
                   className={`${
                     i % 2 === 0 ? "bg-gray-50" : "bg-white"
                   } hover:bg-indigo-50 transition`}
@@ -80,6 +89,9 @@ export default function Users() {
                   </td>
                   <td className="px-6 py-4 text-sm">{user.email}</td>
                   <td className="px-6 py-4 text-sm">{user.role || "user"}</td>
+                  <td className="px-6 py-4 text-sm">{user.age}</td>
+                  <td className="px-6 py-4 text-sm">{user.bio}</td>
+                  <td className="px-6 py-4 text-sm">{user.location}</td>
                 </tr>
               ))
             ) : (
