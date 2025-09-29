@@ -78,7 +78,7 @@ export default function App() {
         {/* Admin sahifasi */}
         <Route path="/admin" element={<AdminPanel />} />
 
-        {/* Agar path topilmasa, landing page ga yo‘naltirish */}
+        {/* Agar path topilmasa, landing page ga yo'naltirish */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
