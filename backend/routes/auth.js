@@ -106,10 +106,37 @@ const passwordRegex =
 
 // ✅ Helper: faqat xavfsiz user obyektini qaytarish
 const getSafeUser = (user) => ({
-  id: user._id.toString(), // id qo'shildi
+  id: user._id.toString(),
   login: user.login,
   email: user.email,
+  role: user.role || "user",   // 🔥 qo'shildi
   createdAt: user.createdAt,
+});
+
+// ✅ Barcha userlarni olish (pagination bilan)
+router.get("/users", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalUsers = await User.countDocuments();
+    const users = await User.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
+      success: true,
+      totalUsers,
+      totalPages: Math.ceil(totalUsers / limit),
+      currentPage: page,
+      users: users.map(getSafeUser), // faqat safe user qaytariladi
+    });
+  } catch (error) {
+    console.error("Users route error:", error);
+    res.status(500).json({ success: false, message: "Server xatosi" });
+  }
 });
 
 // Register
@@ -126,12 +153,12 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({
         success: false,
         message:
-          "Parol kamida 8 ta belgidan iborat bo‘lishi, katta-kichik harf, raqam va maxsus belgi o‘z ichiga olishi kerak!",
+          "Parol kamida 8 ta belgidan iborat bo'lishi, katta-kichik harf, raqam va maxsus belgi o'z ichiga olishi kerak!",
       });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ login, email, password: hashedPassword });
+    const newUser = new User({ login, email, password: hashedPassword, role: "user" }); // 🔥 default role
     await newUser.save();
 
     res.status(201).json({ success: true, user: getSafeUser(newUser) });
@@ -179,7 +206,7 @@ router.put("/update-profile/:id", async (req, res) => {
   }
 });
 
-// Parolni o‘zgartirish
+// Parolni o'zgartirish
 router.put("/change-password/:id", async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -187,13 +214,13 @@ router.put("/change-password/:id", async (req, res) => {
     if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
     const isMatch = await bcrypt.compare(oldPassword, user.password);
-    if (!isMatch) return res.status(400).json({ success: false, message: "Eski parol noto‘g‘ri" });
+    if (!isMatch) return res.status(400).json({ success: false, message: "Eski parol noto'g'ri" });
 
     if (!passwordRegex.test(newPassword)) {
       return res.status(400).json({
         success: false,
         message:
-          "Yangi parol kamida 8 ta belgidan iborat bo‘lishi, katta-kichik harf, raqam va maxsus belgi o‘z ichiga olishi kerak!",
+          "Yangi parol kamida 8 ta belgidan iborat bo'lishi, katta-kichik harf, raqam va maxsus belgi o'z ichiga olishi kerak!",
       });
     }
 
