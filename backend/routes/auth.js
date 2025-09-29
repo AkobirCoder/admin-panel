@@ -1,119 +1,35 @@
-// const express = require("express");
-// const router = express.Router();
-// const bcrypt = require("bcryptjs");
-// const User = require("../models/User");
-
-// // Parol qoidalari
-// const passwordRegex =
-//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-// // Barcha userlarni olish (pagination bilan)
-// router.get("/users", async (req, res) => {
-//   try {
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 10;
-//     const skip = (page - 1) * limit;
-
-//     const totalUsers = await User.countDocuments();
-//     const users = await User.find()
-//       .sort({ createdAt: -1 })
-//       .skip(skip)
-//       .limit(limit);
-
-//     res.json({
-//       success: true,
-//       totalUsers,
-//       totalPages: Math.ceil(totalUsers / limit),
-//       currentPage: page,
-//       users,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: "Xatolik", error });
-//   }
-// });
-
-// // Register
-// router.post("/register", async (req, res) => {
-//   try {
-//     const { login, email, password } = req.body;
-
-//     // user mavjudligini tekshirish
-//     const existingUser = await User.findOne({ $or: [{ login }, { email }] });
-//     if (existingUser) {
-//       return res
-//         .status(400)
-//         .json({ success: false, message: "Bunday login yoki email allaqachon mavjud" });
-//     }
-
-//     // Parol validatsiyasi
-//     if (!passwordRegex.test(password)) {
-//       return res.status(400).json({
-//         success: false,
-//         message:
-//           "Parol kamida 8 ta belgidan iborat bo'lishi, katta-kichik harf, raqam va maxsus belgi o'z ichiga olishi kerak!",
-//       });
-//     }
-
-//     // parolni hash qilish
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const newUser = new User({ login, email, password: hashedPassword });
-//     await newUser.save();
-
-//     if (req.io) req.io.emit("newUser", newUser);
-
-//     res.status(201).json({ success: true, user: newUser });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: "Xatolik", error });
-//   }
-// });
-
-// // Login
-// router.post("/login", async (req, res) => {
-//   try {
-//     const { login, password } = req.body;
-
-//     const user = await User.findOne({ login });
-//     if (!user) {
-//       return res.status(404).json({ success: false, message: "User topilmadi" });
-//     }
-
-//     // parolni solishtirish
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//       return res.status(401).json({ success: false, message: "Parol noto'g'ri" });
-//     }
-
-//     res.status(200).json({ success: true, message: "Login muvaffaqiyatli", user });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: "Xatolik", error });
-//   }
-// });
-
-// module.exports = router;
-
-
-
-
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const multer = require("multer");
+const path = require("path");
 
 // Parol qoidalari
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-// ✅ Helper: faqat xavfsiz user obyektini qaytarish
+// Multer config
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+});
+const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB limit
+
+// Safe user object
 const getSafeUser = (user) => ({
   id: user._id.toString(),
   login: user.login,
   email: user.email,
-  role: user.role || "user",   // 🔥 qo'shildi
+  role: user.role || "user",
+  age: user.age ?? null,
+  bio: user.bio || "",
+  location: user.location || "",
+  profileImage: user.profileImage ? `/uploads/${user.profileImage}` : null,
   createdAt: user.createdAt,
 });
 
-// ✅ Barcha userlarni olish (pagination bilan)
+// GET users (pagination)
 router.get("/users", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -121,17 +37,14 @@ router.get("/users", async (req, res) => {
     const skip = (page - 1) * limit;
 
     const totalUsers = await User.countDocuments();
-    const users = await User.find()
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
+    const users = await User.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
 
     res.json({
       success: true,
       totalUsers,
       totalPages: Math.ceil(totalUsers / limit),
       currentPage: page,
-      users: users.map(getSafeUser), // faqat safe user qaytariladi
+      users: users.map(getSafeUser),
     });
   } catch (error) {
     console.error("Users route error:", error);
@@ -143,27 +56,24 @@ router.get("/users", async (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const { login, email, password } = req.body;
-
     const existingUser = await User.findOne({ $or: [{ login }, { email }] });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: "Bunday login yoki email allaqachon mavjud" });
-    }
+    if (existingUser) return res.status(400).json({ success: false, message: "Bunday login yoki email allaqachon mavjud" });
 
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
         success: false,
-        message:
-          "Parol kamida 8 ta belgidan iborat bo'lishi, katta-kichik harf, raqam va maxsus belgi o'z ichiga olishi kerak!",
+        message: "Parol kamida 8 ta belgidan iborat, katta/kichik harf, raqam va maxsus belgi bo'lishi kerak",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ login, email, password: hashedPassword, role: "user" }); // 🔥 default role
+    const hashed = await bcrypt.hash(password, 10);
+    const newUser = new User({ login, email, password: hashed, role: "user" });
     await newUser.save();
 
     res.status(201).json({ success: true, user: getSafeUser(newUser) });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Xatolik", error });
+    console.error("Register error:", error);
+    res.status(500).json({ success: false, message: "Xatolik", error: error.message || error });
   }
 });
 
@@ -179,34 +89,46 @@ router.post("/login", async (req, res) => {
 
     res.status(200).json({ success: true, message: "Login muvaffaqiyatli", user: getSafeUser(user) });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Xatolik", error });
+    console.error("Login error:", error);
+    res.status(500).json({ success: false, message: "Xatolik", error: error.message || error });
   }
 });
 
-// Profilni yangilash
-router.put("/update-profile/:id", async (req, res) => {
+// Update profile (multer qabul qiladi — form-data)
+router.put("/update-profile/:id", upload.single("profileImage"), async (req, res) => {
   try {
-    const { login, email } = req.body;
+    const { login, email, age, bio, location } = req.body;
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ success: false, message: "Foydalanuvchi topilmadi" });
 
-    const existingUser = await User.findOne({
-      $or: [{ login }, { email }],
-      _id: { $ne: req.params.id },
-    });
-    if (existingUser) return res.status(400).json({ success: false, message: "Bunday login yoki email allaqachon mavjud" });
+    // duplicate tekshir (faqat berilgan maydonlar bo'yicha)
+    const or = [];
+    if (login) or.push({ login });
+    if (email) or.push({ email });
+    if (or.length > 0) {
+      const exist = await User.findOne({ $or: or, _id: { $ne: req.params.id } });
+      if (exist) return res.status(400).json({ success: false, message: "Bunday login yoki email allaqachon mavjud" });
+    }
 
     if (login) user.login = login;
     if (email) user.email = email;
+    if (age !== undefined) user.age = age;
+    if (bio !== undefined) user.bio = bio;
+    if (location !== undefined) user.location = location;
+
+    if (req.file) {
+      user.profileImage = `/uploads/${req.file.filename}`;
+    }
 
     await user.save();
     res.json({ success: true, message: "Profil yangilandi", user: getSafeUser(user) });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Xatolik", error });
+    console.error("Update profile error:", error);
+    res.status(500).json({ success: false, message: "Server xatosi", error: error.message || error });
   }
 });
 
-// Parolni o'zgartirish
+// Change password
 router.put("/change-password/:id", async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -216,19 +138,14 @@ router.put("/change-password/:id", async (req, res) => {
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) return res.status(400).json({ success: false, message: "Eski parol noto'g'ri" });
 
-    if (!passwordRegex.test(newPassword)) {
-      return res.status(400).json({
-        success: false,
-        message:
-          "Yangi parol kamida 8 ta belgidan iborat bo'lishi, katta-kichik harf, raqam va maxsus belgi o'z ichiga olishi kerak!",
-      });
-    }
+    if (!passwordRegex.test(newPassword)) return res.status(400).json({ success: false, message: "Yangi parol qoidalarga mos emas" });
 
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
     res.json({ success: true, message: "Parol muvaffaqiyatli yangilandi" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Xatolik", error });
+    console.error("Change password error:", error);
+    res.status(500).json({ success: false, message: "Xatolik", error: error.message || error });
   }
 });
 
