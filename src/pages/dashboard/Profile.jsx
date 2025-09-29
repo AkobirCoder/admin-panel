@@ -73,10 +73,10 @@ export default function Profile() {
         </form>
 
         <form onSubmit={handleChangePassword}>
-          <h2 className="text-xl mb-2">Parolni o‘zgartirish</h2>
+          <h2 className="text-xl mb-2">Parolni o'zgartirish</h2>
           <input type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} className="mb-2 p-2 border rounded w-full" placeholder="Eski parol" required />
           <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="mb-2 p-2 border rounded w-full" placeholder="Yangi parol" required />
-          <button type="submit" className="bg-green-600 text-white p-2 rounded">O‘zgartirish</button>
+          <button type="submit" className="bg-green-600 text-white p-2 rounded">O'zgartirish</button>
         </form>
 
         <button onClick={handleLogout} className="mt-4 bg-red-500 text-white p-2 rounded">Chiqish</button>
