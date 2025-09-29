@@ -14,9 +14,9 @@ export default function Landing({ loggedIn }) {
       <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         {/* Navbar */}
         <header className="bg-white shadow-md sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <Link to="/" className="text-3xl flex items-center font-bold text-indigo-600">
-              <img className="w-16 me-4" src="/logo.png" alt="Logo" />
+          <div className="px-6 py-4 flex justify-between items-center">
+            <Link to="/" className="text-2xl flex items-center font-bold text-indigo-600">
+              <img className="w-14 me-4" src="/logo.png" alt="Logo" />
               Bilim.ac
             </Link>
             <nav className="flex space-x-6 items-center">
