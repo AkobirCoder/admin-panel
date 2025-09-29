@@ -49,26 +49,45 @@ export default function Users() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-indigo-600 text-white">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">#</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">Login</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">Email</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                #
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                Login
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                Email
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold uppercase">
+                Role
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {users.length > 0 ? (
               users.map((user, i) => (
                 <tr
-                  key={user._id}
-                  className={`${i % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-indigo-50 transition`}
+                  key={user._id || i} // ✅ key xatosi tuzatildi
+                  className={`${
+                    i % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-indigo-50 transition`}
                 >
-                  <td className="px-6 py-4 text-sm">{(page - 1) * 10 + i + 1}</td>
-                  <td className="px-6 py-4 text-sm font-medium">{user.login}</td>
+                  <td className="px-6 py-4 text-sm">
+                    {(page - 1) * 10 + i + 1}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium">
+                    {user.login}
+                  </td>
                   <td className="px-6 py-4 text-sm">{user.email}</td>
+                  <td className="px-6 py-4 text-sm">{user.role || "user"}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="px-6 py-6 text-center text-gray-500 italic">
+                <td
+                  colSpan="4"
+                  className="px-6 py-6 text-center text-gray-500 italic"
+                >
                   Hozircha foydalanuvchi yo'q
                 </td>
               </tr>
