@@ -26,6 +26,8 @@ app.use((req, res, next) => {
 
 app.use("/api/auth", authRoutes);
 
+app.use("/uploads", express.static("uploads"));
+
 mongoose.connect("mongodb://127.0.0.1:27017/adminpanel")
   .then(() => console.log("MongoDB ulandi"))
   .catch(err => console.error(err));
