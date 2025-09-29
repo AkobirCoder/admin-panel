@@ -5,7 +5,7 @@ import ErrorModal from "../components/ErrorModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 
-export default function Login() {
+export default function Login({setUser}) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,6 +24,7 @@ export default function Login() {
 
       if (res.data.success) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        setUser(res.data.user);
         navigate("/dashboard");
       } else {
         setError(res.data.message || "Login yoki parol xato!");
