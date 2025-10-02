@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { FaTelegram, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function Dashboard({ user, setUser }) {
   const navigate = useNavigate();
@@ -62,8 +63,8 @@ export default function Dashboard({ user, setUser }) {
           sidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex justify-between items-center px-6 py-4 border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-          <h2 className="text-lg font-bold">Mening Profilim</h2>
+        <div className="flex justify-between items-center px-6 py-4 border-b bg-blue-700 text-white">
+          <h2 className="text-lg font-medium">Mening Profilim</h2>
           <button
             onClick={() => setSidebarOpen(false)}
             className="text-white hover:text-gray-200 text-xl"
@@ -76,12 +77,59 @@ export default function Dashboard({ user, setUser }) {
           <img
             src={avatarUrl}
             alt="Profil rasmi"
-            className="w-28 h-28 rounded-full border-4 border-indigo-600 shadow-lg mb-4"
+            className="w-28 h-28 rounded-full mb-4"
           />
           <h3 className="text-xl font-semibold text-gray-800">
             {user.login}
           </h3>
-          <p className="text-gray-500 text-sm">{user.email}</p>
+          <p className="text-gray-500 text-sm">Email: {user.email}</p>
+          {user.phone && (
+            <p className="mt-2 text-gray-600 text-sm">
+              Tel: {user.phone}
+            </p>
+          )}
+          <div className="flex gap-6 mt-3">
+            {user.telegram && (
+              <a 
+                className="flex flex-center text-blue-500 hover:scale-110 transition"
+                href={user.telegram}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaTelegram className="text-blue-500 text-xl" />
+              </a>
+            )}
+            {user.instagram && (
+              <a 
+                className="text-blue-500 hover:scale-110 transition"
+                href={user.instagram}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaInstagram className="text-pink-500 text-xl" />
+              </a>
+            )}
+            {user.github && (
+              <a 
+                className="text-blue-500 hover:scale-110 transition"
+                href={user.github}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaGithub className="text-gray-500 text-xl" />
+              </a>
+            )}
+            {user.linkedin && (
+              <a 
+                className="text-blue-500 hover:scale-110 transition"
+                href={user.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaLinkedin className="text-blue-700 text-xl" />
+              </a>
+            )}
+          </div>
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col gap-3 w-full">
