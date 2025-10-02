@@ -7,7 +7,7 @@ import { FaTelegram, FaInstagram, FaGithub, FaLinkedin, FaEyeSlash, FaEye } from
 export default function Profile() {
   const [user, setUser] = useState(null);
 
-  // vaqtinchalik state (o‘zgarishlar shu yerda turadi)
+  // vaqtinchalik state (o'zgarishlar shu yerda turadi)
   const [formData, setFormData] = useState({
     login: "",
     email: "",
@@ -29,6 +29,8 @@ export default function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function Profile() {
       if (!savedUser.id && savedUser._id) savedUser.id = savedUser._id;
       setUser(savedUser);
 
-      // inputlarni user ma’lumotlari bilan to‘ldiramiz
+      // inputlarni user ma’lumotlari bilan to'ldiramiz
       setFormData({
         login: savedUser.login || "",
         email: savedUser.email || "",
@@ -46,7 +48,7 @@ export default function Profile() {
         bio: savedUser.bio || "",
         location: savedUser.location || "",
         phone: savedUser.phone || "",
-        birthDate: savedUser.birthDate || "",
+        birthDate: savedUser.birthDate ? savedUser.birthDate.slice(0, 10) : "",
         skills: savedUser.skills || "",
         telegram: savedUser.telegram || "",
         instagram: savedUser.instagram || "",
@@ -96,14 +98,23 @@ export default function Profile() {
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
+
+    // 1 Parolni tasdiqlashni tekshirish
+    if (newPassword !== confirmPassword) {
+      setMessage("Yangi parol va tasdiqlash paroli mos emas");
+      return;
+    }
+
     try {
       const res = await axios.put(
         `http://localhost:7000/api/auth/change-password/${user.id}`,
         { oldPassword, newPassword }
       );
+
       setMessage(res.data.message);
       setOldPassword("");
       setNewPassword("");
+      setConfirmPassword(""); // reset qilish
     } catch (error) {
       setMessage(error.response?.data?.message || "Xatolik yuz berdi");
     }
@@ -185,33 +196,37 @@ export default function Profile() {
           {/* Forms */}
           <div className="flex-1">
             <form className="space-y-3" onSubmit={handleSaveProfile}>
-              <h2 className="text-xl font-semibold text-gray-700 mb-3">
+              <h2 className="text-xl font-semibold text-gray-700 mb-5">
                 Profil ma’lumotlari
               </h2>
 
               {[
-                { name: "login", placeholder: "Login" },
-                { name: "email", placeholder: "Email", type: "email" },
-                { name: "age", placeholder: "Yosh", type: "number" },
-                { name: "location", placeholder: "Manzil" },
-                { name: "phone", placeholder: "Telefon raqami" },
-                { name: "birthDate", placeholder: "Tug‘ilgan sana", type: "date" },
-                { name: "skills", placeholder: "Ko‘nikmalar (React, Node.js...)" },
-                { name: "bio", placeholder: "O'zingiz haqingizda" },
-                { name: "telegram", placeholder: "Telegram link" },
-                { name: "instagram", placeholder: "Instagram link" },
-                { name: "github", placeholder: "GitHub link" },
-                { name: "linkedin", placeholder: "LinkedIn link" },
+                { name: "login", label: "Login" },
+                { name: "email", label: "Email", type: "email" },
+                { name: "age", label: "Yosh", type: "number" },
+                { name: "location", label: "Manzil" },
+                { name: "phone", label: "Telefon raqami" },
+                { name: "birthDate", label: "Tug'ilgan sana", type: "date" },
+                { name: "skills", label: "Ko'nikmalar" },
+                { name: "bio", label: "Bio" },
+                { name: "telegram", label: "Telegram link" },
+                { name: "instagram", label: "Instagram link" },
+                { name: "github", label: "GitHub link" },
+                { name: "linkedin", label: "LinkedIn link" },
               ].map((field, i) => (
-                <input
-                  key={i}
-                  type={field.type || "text"}
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  placeholder={field.placeholder}
-                  className="w-full p-2 border rounded-md focus:ring focus:ring-indigo-200 text-sm"
-                />
+                <div key={i} className="flex items-center gap-4">
+                  <label className="w-32 text-sm font-medium text-gray-600">
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type || "text"}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    placeholder={field.label}
+                    className="flex-1 p-2 border rounded-md focus:ring-1 focus:ring-indigo-400 outline-none text-sm"
+                  />
+                </div>
               ))}
 
               <button
@@ -224,7 +239,7 @@ export default function Profile() {
 
             {/* Password change */}
             <form onSubmit={handleChangePassword} className="space-y-3 mt-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-3">
+              <h2 className="text-xl font-semibold text-gray-700 mb-5">
                 Parolni o'zgartirish
               </h2>
               <div className="relative">
@@ -233,7 +248,7 @@ export default function Profile() {
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   placeholder="Eski parol"
-                  className="w-full p-2 border rounded-md focus:ring focus:ring-green-200 text-sm"
+                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400 outline-none text-sm"
                   required
                 />
                 <button
@@ -250,7 +265,7 @@ export default function Profile() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Yangi parol"
-                  className="w-full p-2 border rounded-md focus:ring focus:ring-green-200 text-sm"
+                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400 outline-none text-sm"
                   required
                 />
                 <button
@@ -259,6 +274,23 @@ export default function Profile() {
                   className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Yangi parolni tasdiqlang"
+                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400 outline-none text-sm"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
 
