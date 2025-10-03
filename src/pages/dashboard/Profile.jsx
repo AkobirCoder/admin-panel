@@ -143,11 +143,11 @@ export default function Profile() {
 
         <div className="bg-white shadow-xl rounded-2xl p-6 flex gap-8">
           {/* Avatar */}
-          <div className="flex flex-col items-center w-1/3 border-r pr-6">
+          <div className="flex flex-col flex-0.5 items-center w-1/3 border-r pr-6">
             <img
               src={avatarUrl}
               alt="Profil rasmi"
-              className="w-28 h-28 rounded-full object-cover border-4 border-indigo-500 shadow-md"
+              className="w-28 h-28 rounded-full object-cover"
             />
             <label className="mt-3 cursor-pointer text-indigo-600 hover:underline text-sm">
               Rasmni yuklash
@@ -191,51 +191,6 @@ export default function Profile() {
                 </a>
               )}
             </div>
-          </div>
-
-          {/* Forms */}
-          <div className="flex-1">
-            <form className="space-y-3" onSubmit={handleSaveProfile}>
-              <h2 className="text-xl font-semibold text-gray-700 mb-5">
-                Profil ma’lumotlari
-              </h2>
-
-              {[
-                { name: "login", label: "Login" },
-                { name: "email", label: "Email", type: "email" },
-                { name: "age", label: "Yosh", type: "number" },
-                { name: "location", label: "Manzil" },
-                { name: "phone", label: "Telefon raqami" },
-                { name: "birthDate", label: "Tug'ilgan sana", type: "date" },
-                { name: "skills", label: "Ko'nikmalar" },
-                { name: "bio", label: "Bio" },
-                { name: "telegram", label: "Telegram link" },
-                { name: "instagram", label: "Instagram link" },
-                { name: "github", label: "GitHub link" },
-                { name: "linkedin", label: "LinkedIn link" },
-              ].map((field, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <label className="w-32 text-sm font-medium text-gray-600">
-                    {field.label}
-                  </label>
-                  <input
-                    type={field.type || "text"}
-                    name={field.name}
-                    value={formData[field.name]}
-                    onChange={handleChange}
-                    placeholder={field.label}
-                    className="flex-1 p-2 border rounded-md focus:ring-1 focus:ring-indigo-400 outline-none text-sm"
-                  />
-                </div>
-              ))}
-
-              <button
-                type="submit"
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm"
-              >
-                Saqlash
-              </button>
-            </form>
 
             {/* Password change */}
             <form onSubmit={handleChangePassword} className="space-y-3 mt-6">
@@ -248,7 +203,7 @@ export default function Profile() {
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   placeholder="Eski parol"
-                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400 outline-none text-sm"
+                  className="w-72 p-2 border rounded-md focus:ring-2 focus:ring-green-400 outline-none text-sm"
                   required
                 />
                 <button
@@ -302,13 +257,60 @@ export default function Profile() {
                 O'zgartirish
               </button>
             </form>
+          </div>
 
-            <button
-              onClick={handleLogout}
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition text-sm"
-            >
-              Chiqish
-            </button>
+          {/* Forms */}
+          <div className="flex-1">
+            <form className="space-y-3" onSubmit={handleSaveProfile}>
+              <h2 className="text-xl font-semibold text-gray-700 mb-5">
+                Profil ma’lumotlari
+              </h2>
+
+              {[
+                { name: "login", label: "Login" },
+                { name: "email", label: "Email", type: "email" },
+                { name: "age", label: "Yosh", type: "number" },
+                { name: "location", label: "Manzil" },
+                { name: "phone", label: "Telefon raqami" },
+                { name: "birthDate", label: "Tug'ilgan sana", type: "date" },
+                { name: "skills", label: "Ko'nikmalar" },
+                { name: "bio", label: "Bio" },
+                { name: "telegram", label: "Telegram link" },
+                { name: "instagram", label: "Instagram link" },
+                { name: "github", label: "GitHub link" },
+                { name: "linkedin", label: "LinkedIn link" },
+              ].map((field, i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <label className="w-32 text-sm font-medium text-gray-600">
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type || "text"}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    placeholder={field.label}
+                    className="flex-1 p-2 border rounded-md focus:ring-1 focus:ring-indigo-400 outline-none text-sm"
+                  />
+                </div>
+              ))}
+
+              <div className="flex justify-center items-center gap-10">
+                <button
+                  type="submit"
+                  className="mt-4 bg-indigo-600 text-white px-10 py-2 rounded-md hover:bg-indigo-700 transition text-sm"
+                >
+                  Saqlash
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="mt-4 bg-red-500 text-white px-10 py-2 rounded-md hover:bg-red-600 transition text-sm"
+                >
+                  Chiqish
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
