@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     profileImage: { type: String, default: null },
     phone: { type: String, default: "" },
     birthDate: { type: Date, default: null },
-    skills: { type: String, default: "" }, // oddiy string, xohlasa array qilsa ham bo'ladi
+    skills: { type: String, default: "" },
     telegram: { type: String, default: "" },
     instagram: { type: String, default: "" },
     github: { type: String, default: "" },
@@ -24,6 +24,3 @@ const userSchema = new mongoose.Schema(
 userSchema.set("versionKey", false);
 
 module.exports = mongoose.model("User", userSchema);
-
-
-// keyin boyagi rasmni yuklashda uploadsga yuklanib ketmoqda shuni uploadsga yuklamasadan qilishni iloji bormi chunki loyiha hajmi og'irlashib ketmoqda
