@@ -1,22 +1,22 @@
-// Import the functions you need from the SDKs you need
+// src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBDvTclaIR8Fo07sJeqS2PUDdG2ibhodVg",
-  authDomain: "bilimac-fcfc3.firebaseapp.com",
-  projectId: "bilimac-fcfc3",
-  storageBucket: "bilimac-fcfc3.appspot.com",
-  messagingSenderId: "988247274787",
-  appId: "1:988247274787:web:b9f1668b1a007834d44896",
-  measurementId: "G-8TZX7BGW7W"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
-// Initialize Firebase
+// Firebase init
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const storage = getStorage(app);
 
-export { app, analytics, storage };
+// Storage va Firestore init
+const storage = getStorage(app);
+const db = getFirestore(app);
+
+export { app, storage, db };
