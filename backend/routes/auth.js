@@ -4,6 +4,7 @@
   const User = require("../models/User");
   const multer = require("multer");
   const path = require("path");
+  const svgCaptcha = require("svg-captcha");
 
   // Parol qoidalari
   const passwordRegex =
@@ -99,6 +100,36 @@
       console.error("Login error:", error);
       res.status(500).json({ success: false, message: "Xatolik", error: error.message || error });
     }
+  });
+
+  // Captcha yaratish
+  router.get("/captcha", (req, res) => {
+    const captcha = svgCaptcha.create({
+      size: 5,
+      noise: 2,
+      color: true,
+      background: "#f2f2f2",
+    });
+
+    const token = Math.random().toString(36).substring(2, 15); // Tasodifiy token
+    global.captchaStore = global.captchaStore || {};
+    global.captchaStore[token] = captcha.text;
+
+    res.json({ image: `data:image/svg+xml;base64,${Buffer.from(captcha.data).toString("base64")}`, token });
+  });
+
+  // Captcha tekshirish
+  router.post("/verify-captcha", (req, res) => {
+    const { token, text } = req.body;
+    if (!global.captchaStore || !global.captchaStore[token]) {
+      return res.status(400).json({ success: false, message: "Captcha topilmadi" });
+    }
+
+    const isValid =
+      global.captchaStore[token].toLowerCase() === text.toLowerCase();
+
+    delete global.captchaStore[token];
+    res.json({ success: isValid });
   });
 
   // Update profile (multer qabul qiladi — form-data)
