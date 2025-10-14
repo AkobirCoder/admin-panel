@@ -174,26 +174,26 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
-  const [captchaVerified, setCaptchaVerified] = useState(false);
-  const [step, setStep] = useState(1); // 1 - email va captcha, 2 - login
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [step, setStep] = useState(1);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const SITE_KEY = "6LdyGukrAAAAAJ5b0ogaXisqvlz7AYR9ssgmpwJB"; // <-- sening site key
+  const SITE_KEY = "6LdyGukrAAAAAJ5b0ogaXisqvlz7AYR9ssgmpwJB";
 
-  const handleCaptcha = (value) => {
-    if (value) {
-      setCaptchaVerified(true);
+  const handleCaptcha = (token) => {
+    if (token) {
+      setCaptchaToken(token);
     }
   };
 
   const handleEmailSubmit = (e) => {
     e.preventDefault();
     if (!email.trim()) return setError("Email kiritilishi shart");
-    if (!captchaVerified) return setError("Avval reCAPTCHA ni tasdiqlang");
+    if (!captchaToken) return setError("Avval reCAPTCHA ni tasdiqlang");
     setStep(2);
   };
 
@@ -202,9 +202,12 @@ export default function Login({ setUser }) {
     setError("");
 
     try {
+      if (!captchaToken) return setError("Avval captcha tasdiqlang");
+
       const res = await axios.post("http://localhost:7000/api/auth/login", {
         login,
         password,
+        captchaToken,
       });
 
       if (res.data.success) {
@@ -216,13 +219,7 @@ export default function Login({ setUser }) {
       }
     } catch (err) {
       console.error(err);
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || "Login yoki parol xato!");
-      } else if (err.request) {
-        setError("Serverga ulanishda xatolik! Keyinroq urinib ko‘ring.");
-      } else {
-        setError("Kutilmagan xatolik yuz berdi!");
-      }
+      setError("Server bilan aloqa xatosi yoki login xato!");
     }
   };
 
@@ -274,7 +271,6 @@ export default function Login({ setUser }) {
                     />
                   </div>
 
-                  {/* reCAPTCHA */}
                   <div className="flex justify-center">
                     <ReCAPTCHA
                       sitekey={SITE_KEY}
@@ -350,17 +346,17 @@ export default function Login({ setUser }) {
             )}
 
             <p className="text-sm text-gray-200 text-center mt-4">
-              Akkountingiz yo‘qmi?{" "}
+              Akkountingiz yo'qmi?{" "}
               <Link
                 to="/register"
-                className="text-indigo-400 hover:underline font-medium"
+                className="text-indigo-700 hover:underline font-medium"
               >
-                Ro‘yxatdan o‘ting
+                Ro'yxatdan o'ting
               </Link>
               <div className="mt-4">
                 <Link
                   to="/"
-                  className="text-indigo-400 hover:underline font-medium"
+                  className="text-indigo-700 hover:underline font-medium"
                 >
                   Bosh sahifaga qaytish
                 </Link>
@@ -373,11 +369,7 @@ export default function Login({ setUser }) {
           <ErrorModal
             message={error}
             onClose={() => setError("")}
-            onRetry={() => {
-              setError("");
-              setLogin("");
-              setPassword("");
-            }}
+            onRetry={() => setError("")}
           />
         )}
       </div>
