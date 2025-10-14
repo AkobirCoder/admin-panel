@@ -228,7 +228,7 @@ export default function Login({ setUser }) {
       <Helmet>
         <title>Bilim.ac - Kirish</title>
       </Helmet>
-      <div className="flex h-screen">
+      <div className="flex h-screen absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md">
         {/* Chap tomon – Rasm */}
         <div className="hidden md:flex w-1/2 items-center justify-center">
           <img
@@ -236,6 +236,7 @@ export default function Login({ setUser }) {
             alt="Login Illustration"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
         </div>
 
         {/* O'ng tomon – Login form */}
@@ -247,7 +248,7 @@ export default function Login({ setUser }) {
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
 
-          <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
+          <div className="relative -translate-x-96 w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
             {step === 1 && (
               <>
                 <h2 className="text-3xl font-medium text-center text-white mb-6">
