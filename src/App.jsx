@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Profile from "./pages/dashboard/Profile";
 import AdminPanel from "./pages/AdminPanel";
+import { ThemeProvider } from "./components/ThemeContext";
+import { LangProvider } from "./components/LangContext";
 
 // Protected Route helper
 const PrivateRoute = ({ children }) => {
@@ -22,37 +24,41 @@ export default function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/register" element={<Register />} />
+    <ThemeProvider>
+      <LangProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/register" element={<Register />} />
 
-        {/* Dashboard va Profile himoyalangan */}
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard user={user} setUser={setUser} />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/dashboard/profile"
-          element={
-            <PrivateRoute>
-              <Profile user={user} setUser={setUser} />
-            </PrivateRoute>
-          }
-        />
+            {/* Dashboard va Profile himoyalangan */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard user={user} setUser={setUser} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard/profile"
+              element={
+                <PrivateRoute>
+                  <Profile user={user} setUser={setUser} />
+                </PrivateRoute>
+              }
+            />
 
-        {/* Admin sahifasi */}
-        <Route path="/admin" element={<AdminPanel />} />
+            {/* Admin sahifasi */}
+            <Route path="/admin" element={<AdminPanel />} />
 
-        {/* Agar path topilmasa, landing page ga yo'naltirish */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
+            {/* Agar path topilmasa, landing page ga yo'naltirish */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Router>
+      </LangProvider>
+    </ThemeProvider>
   );
 }
 
