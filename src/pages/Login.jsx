@@ -236,7 +236,6 @@ export default function Login({ setUser }) {
             alt="Login Illustration"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
         </div>
 
         {/* O'ng tomon – Login form */}
@@ -248,7 +247,7 @@ export default function Login({ setUser }) {
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md"></div>
 
-          <div className="relative -translate-x-96 w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
+          <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl shadow-xl rounded-lg p-8">
             {step === 1 && (
               <>
                 <h2 className="text-3xl font-medium text-center text-white mb-6">
