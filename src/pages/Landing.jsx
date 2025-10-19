@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "@dr.pogodin/react-helmet";
-import { FiSun, FiMoon, FiChevronDown } from "react-icons/fi";
+import { FiSun, FiMoon, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Flag from "react-world-flags";
 import { ThemeContext } from "../components/ThemeContext";
 import { useLang } from "../components/LangContext";
@@ -10,6 +10,19 @@ export default function Landing() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { lang, setLang, t } = useLang();
   const [openDropdown, setOpenDropdown] = useState(false);
+
+  const dropdownRef = useRef(null);
+
+  // 🔹 Tashqariga bosilganda dropdown yopiladi
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLangChange = (newLang) => {
     setLang(newLang);
@@ -57,12 +70,12 @@ export default function Landing() {
               {t.register}
             </Link>
 
-            <div className="relative flex items-center space-x-4">
+            <div className="relative flex items-center space-x-4" ref={dropdownRef}>
               {/* Language Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setOpenDropdown(!openDropdown)}
-                  className="flex items-center px-2 py-1 border rounded-lg hover:bg-indigo-100 dark:hover:bg-gray-700"
+                  className="flex items-center px-2 py-1 border rounded-lg"
                 >
                   <Flag
                     code={
@@ -70,21 +83,25 @@ export default function Landing() {
                     }
                     className="w-6 h-6 rounded-full object-cover"
                   />
-                  <FiChevronDown className="ml-1" />
+                  {openDropdown ? (
+                    <FiChevronUp className="ml-1" />
+                  ) : (
+                    <FiChevronDown className="ml-1" />
+                  )}
                 </button>
 
                 {openDropdown && (
                   <div
-                    className={`absolute right-0 mt-2 rounded-lg shadow-lg border ${
+                    className={`absolute right-0 mt-2 w-36 rounded-lg shadow-lg border ${
                       theme === "dark"
                         ? "bg-gray-800 border-gray-700"
                         : "bg-white border-gray-200"
                     }`}
                   >
-                    <div className="flex flex-col p-2 space-y-2">
+                    <div className="flex flex-col p-2 space-y-1">
                       <button
                         onClick={() => handleLangChange("uz")}
-                        className="flex items-center space-x-2 hover:bg-indigo-100 dark:hover:bg-gray-700 px-3 py-1 rounded-lg"
+                        className="flex items-center space-x-2 px-3 py-2 rounded-lg"
                       >
                         <Flag
                           code="UZ"
@@ -94,7 +111,7 @@ export default function Landing() {
                       </button>
                       <button
                         onClick={() => handleLangChange("ru")}
-                        className="flex items-center space-x-2 hover:bg-indigo-100 dark:hover:bg-gray-700 px-3 py-1 rounded-lg"
+                        className="flex items-center space-x-2 px-3 py-2 rounded-lg"
                       >
                         <Flag
                           code="RU"
@@ -104,7 +121,7 @@ export default function Landing() {
                       </button>
                       <button
                         onClick={() => handleLangChange("en")}
-                        className="flex items-center space-x-2 hover:bg-indigo-100 dark:hover:bg-gray-700 px-3 py-1 rounded-lg"
+                        className="flex items-center space-x-2 px-3 py-2 rounded-lg"
                       >
                         <Flag
                           code="GB"
