@@ -90,7 +90,7 @@ export default function Landing() {
                           code="UZ"
                           className="w-6 h-6 rounded-full object-cover"
                         />
-                        <span>O‘zbek</span>
+                        <span>O'zbek</span>
                       </button>
                       <button
                         onClick={() => handleLangChange("ru")}
