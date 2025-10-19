@@ -1,76 +1,64 @@
-import React, { createContext, useState } from "react";
-import OpenAI from "openai";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-// === Kontekst yaratamiz ===
-export const LangContext = createContext();
-
-// === OpenAI mijozini sozlash ===
-const openai = new OpenAI({
-  apiKey: process.env.REACT_APP_OPENAI_API_KEY, // .env ichidan oladi
-  dangerouslyAllowBrowser: true, // frontendda ishlashi uchun
-});
-
-// === Statik so'zlar uchun fallback ===
-const staticTranslations = {
+// Til ma'lumotlari (frontend tarjimalar)
+const translations = {
   uz: {
     home: "Bosh sahifa",
-    dashboard: "Dashboard",
+    dashboard: "Boshqaruv paneli",
     login: "Kirish",
     register: "Ro'yxatdan o'tish",
-    heroTitle: "Qulay va xavfsiz foydalanuvchi tizimi",
-    heroDesc:
-      "Ro'yxatdan o'ting yoki tizimga kiring va siz uchun mo'ljallangan barcha xizmatlardan foydalaning.",
+    heroTitle: "Bilim.ac platformasiga xush kelibsiz!",
+    heroDesc: "Zamonaviy bilim olish va o‘qitish tizimi.",
     start: "Boshlash",
-    joinNow: "Ro'yxatdan o'tish",
     rights: "Barcha huquqlar himoyalangan.",
+  },
+  ru: {
+    home: "Главная",
+    dashboard: "Панель управления",
+    login: "Вход",
+    register: "Регистрация",
+    heroTitle: "Добро пожаловать на платформу Bilim.ac!",
+    heroDesc: "Современная система обучения и преподавания.",
+    start: "Начать",
+    rights: "Все права защищены.",
   },
   en: {
     home: "Home",
     dashboard: "Dashboard",
     login: "Login",
     register: "Register",
-    heroTitle: "A convenient and secure user system",
-    heroDesc:
-      "Register or log in to access all the services designed for you.",
+    heroTitle: "Welcome to Bilim.ac platform!",
+    heroDesc: "A modern system for learning and teaching.",
     start: "Get Started",
-    joinNow: "Join Now",
     rights: "All rights reserved.",
   },
 };
 
-// === LangProvider ===
+export const LangContext = createContext();
+
 export const LangProvider = ({ children }) => {
-  const [lang, setLang] = useState(localStorage.getItem("lang") || "uz");
-  const [translations, setTranslations] = useState(staticTranslations);
+  const [lang, setLang] = useState("uz");
+  const [t, setT] = useState(translations.uz);
 
-  // === Tillarni almashtirish ===
-  const toggleLang = async () => {
-    const newLang = lang === "uz" ? "en" : "uz";
-    setLang(newLang);
-    localStorage.setItem("lang", newLang);
-  };
-
-  // === OpenAI orqali dinamik tarjima ===
-  const translateText = async (text) => {
-    try {
-      const targetLang = lang === "uz" ? "English" : "Uzbek";
-      const response = await openai.responses.create({
-        model: "gpt-5-mini",
-        input: `Translate this text to ${targetLang}: ${text}`,
-      });
-
-      const translated = response.output[0].content[0].text;
-      return translated.trim();
-    } catch (error) {
-      console.error("Tarjima xatosi:", error);
-      return text; // Xato bo'lsa asl matnni qaytaradi
+  useEffect(() => {
+    const savedLang = localStorage.getItem("lang");
+    if (savedLang) {
+      setLang(savedLang);
+      setT(translations[savedLang]);
     }
-  };
+  }, []);
 
-  // === Provider qiymatlari ===
+  useEffect(() => {
+    localStorage.setItem("lang", lang);
+    setT(translations[lang]);
+  }, [lang]);
+
   return (
-    <LangContext.Provider value={{ lang, toggleLang, t: translations[lang], translateText }}>
+    <LangContext.Provider value={{ lang, setLang, t }}>
       {children}
     </LangContext.Provider>
   );
 };
+
+// ✅ Custom hook — shuni import qilib ishlatasan (Landing.jsx da)
+export const useLang = () => useContext(LangContext);
