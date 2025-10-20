@@ -103,7 +103,7 @@ export default function Landing() {
                     <div className="flex flex-col p-2 space-y-1">
                       <button
                         onClick={() => handleLangChange("uz")}
-                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-200 ${
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
                           theme === "dark"
                           ? "hover:bg-gray-600"
                           : "hover:bg-gray-200"
@@ -116,7 +116,7 @@ export default function Landing() {
                       </button>
                       <button
                         onClick={() => handleLangChange("ru")}
-                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-200 ${
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
                           theme === "dark"
                           ? "hover:bg-gray-600"
                           : "hover:bg-gray-200"
@@ -129,7 +129,7 @@ export default function Landing() {
                       </button>
                       <button
                         onClick={() => handleLangChange("en")}
-                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-200 ${
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
                           theme === "dark"
                           ? "hover:bg-gray-600"
                           : "hover:bg-gray-200"
@@ -214,7 +214,11 @@ export default function Landing() {
           ].map((card, i) => (
             <div
               key={i}
-              className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition"
+              className={`shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition ${
+                theme === "dark"
+                ? "bg-gray-600"
+                : "bg-white"
+              }`}
             >
               <img
                 src={card.img}
@@ -222,11 +226,27 @@ export default function Landing() {
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-3">{card.title}</h3>
-                <p className="text-gray-600 mb-4">{card.desc}</p>
+                <h3 className={`text-2xl font-semibold mb-3 ${
+                  theme === "dark"
+                  ? "text-gray-300"
+                  : "text-gray-800"
+                }`}>
+                  {card.title}
+                </h3>
+                <p className={`mb-4 ${
+                  theme === "dark"
+                  ? "text-gray-300"
+                  : "text-gray-700"
+                }`}>
+                  {card.desc}
+                </p>
                 <Link
                   to="/dashboard"
-                  className="text-indigo-600 font-medium hover:underline"
+                  className={`font-medium hover:underline ${
+                    theme === "dark"
+                    ? "text-gray-400"
+                    : "text-indigo-600"
+                  }`}
                 >
                   Batafsil →
                 </Link>
