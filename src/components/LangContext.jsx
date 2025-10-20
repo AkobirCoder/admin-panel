@@ -12,7 +12,7 @@ export const LangProvider = ({ children }) => {
       login: "Kirish",
       register: "Ro'yxatdan o'tish",
       heroTitle: "Bilim.ac platformasiga xush kelibsiz!",
-      heroDesc: "Zamonaviy bilim olish va o‘qitish tizimi.",
+      heroDesc: "Zamonaviy bilim olish va o'qitish tizimi.",
       start: "Boshlash",
       rights: "Barcha huquqlar himoyalangan",
     },
