@@ -47,7 +47,7 @@ export default function Landing() {
           theme === "dark" ? "bg-gray-800" : "bg-white"
         } shadow-md sticky top-0 z-50`}
       >
-        <div className="px-6 py-4 flex justify-between items-center">
+        <div className="px-10 py-4 flex justify-between items-center">
           <Link
             to="/"
             className="text-2xl flex items-center font-bold text-indigo-600"
@@ -94,7 +94,7 @@ export default function Landing() {
 
                 {openDropdown && (
                   <div
-                    className={`absolute right-0 mt-2 w-40 rounded-lg shadow-lg border transition-all ${
+                    className={`absolute left-1/2 transform -translate-x-1/2 mt-2 w-44 rounded-lg shadow-lg border transition-all z-50 ${
                       theme === "dark"
                         ? "bg-gray-800 border-gray-700"
                         : "bg-white border-gray-200"
@@ -103,23 +103,41 @@ export default function Landing() {
                     <div className="flex flex-col p-2 space-y-1">
                       <button
                         onClick={() => handleLangChange("uz")}
-                        className="flex items-center space-x-2 px-3 py-2 rounded-lg"
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-200 ${
+                          theme === "dark"
+                          ? "hover:bg-gray-600"
+                          : "hover:bg-gray-200"
+                        }`}
                       >
-                        <Flag code="UZ" className="w-6 h-6 rounded-full" />
+                        <div className="w-6 h-6 rounded-full overflow-hidden">
+                          <Flag code="UZ" className="w-full h-full object-cover" />
+                        </div>
                         <span>O'zbek</span>
                       </button>
                       <button
                         onClick={() => handleLangChange("ru")}
-                        className="flex items-center space-x-2 px-3 py-2 rounded-lg"
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-200 ${
+                          theme === "dark"
+                          ? "hover:bg-gray-600"
+                          : "hover:bg-gray-200"
+                        }`}
                       >
-                        <Flag code="RU" className="w-6 h-6 rounded-full" />
+                        <div className="w-6 h-6 rounded-full overflow-hidden">
+                          <Flag code="RU" className="w-full h-full object-cover" />
+                        </div>
                         <span>Русский</span>
                       </button>
                       <button
                         onClick={() => handleLangChange("en")}
-                        className="flex items-center space-x-2 px-3 py-2 rounded-lg"
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-200 ${
+                          theme === "dark"
+                          ? "hover:bg-gray-600"
+                          : "hover:bg-gray-200"
+                        }`}
                       >
-                        <Flag code="GB" className="w-6 h-6 rounded-full" />
+                        <div className="w-6 h-6 rounded-full overflow-hidden">
+                          <Flag code="GB" className="w-full h-full object-cover" />
+                        </div>
                         <span>English</span>
                       </button>
                     </div>
@@ -130,7 +148,11 @@ export default function Landing() {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-200 transition"
+                className={`p-2 rounded-full transition ${
+                  theme === "dark"
+                  ? "hover:bg-gray-600"
+                  : "hover:bg-gray-200"
+                }`}
                 title="Tungi/Kungi rejim"
               >
                 {theme === "dark" ? (
