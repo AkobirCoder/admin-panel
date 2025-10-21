@@ -1,8 +1,8 @@
 {
   "home": "Home",
   "dashboard": "Dashboard",
-  "login": "Login",
-  "register": "Register",
+  "login": "Sign in",
+  "register": "Sign up",
   "heroTitle": "Welcome to the Bilim.ac platform!",
   "heroDesc": "A modern system for learning and teaching.",
   "start": "Get Started",
@@ -13,5 +13,8 @@
   "heroCardOneDescr": "Achieve effective results using our services.",
   "heroCardTwoDescr": "Stay up to date with the latest news.",
   "heroCardThreeDescr": "If you have any questions, you can contact us.",
-  "heroCardBtn": "More"
+  "heroCardBtn": "More",
+  "ctaTitle": "Register today",
+  "ctaDescr": "Register and use all the features of the system.",
+  "ctaBtn": "Sign up"
 }
