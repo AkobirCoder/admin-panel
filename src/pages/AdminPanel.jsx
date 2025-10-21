@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FaUsers, FaUserShield, FaCog, FaBars } from "react-icons/fa";
 import Users from "./admin/Users";
 import Roles from "./admin/Roles";
 import Settings from "./admin/Settings";
+import { ThemeContext } from "../components/ThemeContext";
 
 export default function AdminPanel() {
   const [activePage, setActivePage] = useState("users");
