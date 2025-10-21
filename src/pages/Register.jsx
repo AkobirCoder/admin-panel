@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorModal from "../components/ErrorModal";
 import { FaCheckCircle, FaTimesCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import { ThemeContext } from "../components/ThemeContext";
 
 export default function Register() {
   const [login, setLogin] = useState("");
@@ -15,6 +16,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   // Parol talablari
   const requirements = [
