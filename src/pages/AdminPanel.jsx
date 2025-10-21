@@ -27,8 +27,12 @@ export default function AdminPanel() {
     <div className="flex">
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full bg-indigo-700 text-white flex flex-col shadow-xl z-20 transition-all duration-300 ${
+        className={`fixed left-0 top-0 h-full text-white flex flex-col shadow-xl z-20 transition-all duration-300 ${
           isSidebarOpen ? "w-64" : "w-20"
+        } ${
+          theme === "dark"
+          ? "bg-gray-600"
+          : "bg-indigo-700"
         }`}
       >
         {/* Header */}
@@ -57,8 +61,16 @@ export default function AdminPanel() {
           <button
             onClick={() => setActivePage("users")}
             className={`flex items-center gap-3 px-3 py-2 w-full rounded-md transition 
-              ${activePage === "users" ? "bg-indigo-600" : "hover:bg-indigo-600"}
-              ${isSidebarOpen ? "justify-start" : "justify-center"}`}
+              ${isSidebarOpen ? "justify-start" : "justify-center"}
+              ${
+                theme === "dark"
+                ? activePage === "users"
+                  ? "bg-gray-700 text-white"
+                  : "hover:bg-gray-600 text-gray-200"
+                : activePage === "users"
+                  ? "bg-gray-600 text-white"
+                  : "hover:bg-gray-500 text-gray-900"
+              }`}
           >
             <FaUsers />
             {isSidebarOpen && <span>Foydalanuvchilar</span>}
@@ -86,8 +98,12 @@ export default function AdminPanel() {
 
       {/* Content */}
       <main
-        className={`flex-1 px-10 py-7 bg-gray-100 min-h-screen transition-all duration-300 ${
+        className={`flex-1 px-10 py-7 min-h-screen transition-all duration-300 ${
           isSidebarOpen ? "ml-64" : "ml-20"
+        } ${
+          theme === "dark"
+          ? "bg-gray-700"
+          : "bg-gray-100"
         }`}
       >
         {renderContent()}
