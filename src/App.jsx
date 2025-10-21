@@ -8,6 +8,7 @@ import Profile from "./pages/dashboard/Profile";
 import AdminPanel from "./pages/AdminPanel";
 import { ThemeProvider } from "./components/ThemeContext";
 import { LangProvider } from "./components/LangContext";
+import "./i18n"
 
 // Protected Route helper
 const PrivateRoute = ({ children }) => {
