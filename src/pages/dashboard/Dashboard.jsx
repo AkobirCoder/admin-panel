@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import { FaTelegram, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
+import { ThemeContext } from "../../components/ThemeContext";
 
 export default function Dashboard({ user, setUser }) {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
