@@ -8,6 +8,7 @@ import { ThemeContext } from "../components/ThemeContext";
 export default function AdminPanel() {
   const [activePage, setActivePage] = useState("users");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { theme } = useContext(ThemeContext);
 
   const renderContent = () => {
     switch (activePage) {
