@@ -269,15 +269,17 @@ export default function Landing() {
             : "bg-gray-900 text-gray-300"
         } bg-indigo-600 py-16 text-center text-white`}
       >
-        <h2 className="text-3xl font-bold mb-4">Bugun ro'yxatdan o'ting</h2>
+        <h2 className="text-3xl font-bold mb-4">
+          {t("ctaTitle")}
+        </h2>
         <p className="mb-6 opacity-90">
-          Ro'yxatdan o'tib, tizimning barcha imkoniyatlaridan foydalaning.
+          {t("ctaDescr")}
         </p>
         <Link
           to="/register"
           className="px-8 py-3 bg-white text-indigo-600 font-medium rounded-lg shadow hover:bg-gray-100 transition"
         >
-          Ro'yxatdan o'tish
+          {t("ctaBtn")}
         </Link>
       </section>
 
