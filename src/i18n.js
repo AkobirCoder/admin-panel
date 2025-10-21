@@ -14,8 +14,8 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: "uz", // Boshlang‘ich til
-  fallbackLng: "en", // Agar so‘z topilmasa, inglizcha chiqadi
+  lng: "uz", // Boshlang'ich til
+  fallbackLng: "en", // Agar so'z topilmasa, inglizcha chiqadi
   interpolation: {
     escapeValue: false,
   },
