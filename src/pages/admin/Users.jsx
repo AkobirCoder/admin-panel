@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import { ThemeContext } from "../../components/ThemeContext";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { theme } = useContext(ThemeContext);
 
   const fetchUsers = async (pageNumber = 1) => {
     try {
