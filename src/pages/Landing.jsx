@@ -28,7 +28,7 @@ export default function Landing() {
 
   const handleLangChange = (newLang) => {
     setLang(newLang);
-    i18n.changeLanguage(newLang); // ✅ i18next tilini o‘zgartiradi
+    i18n.changeLanguage(newLang); // ✅ i18next tilini o'zgartiradi
     setOpenDropdown(false);
   };
 
@@ -200,18 +200,18 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
           {[
             {
-              title: "Xizmatlar",
-              desc: "Bizning xizmatlarimizdan foydalanib samarali natijalarga erishing.",
+              title: t("heroCardOneTitle"),
+              desc: t("heroCardOneDescr"),
               img: "https://picsum.photos/600/300?random=11",
             },
             {
-              title: "Yangiliklar",
-              desc: "So'nggi yangiliklardan doimiy xabardor bo'ling.",
+              title: t("heroCardTwoTitle"),
+              desc: t("heroCardTwoDescr"),
               img: "https://picsum.photos/600/300?random=12",
             },
             {
-              title: "Aloqa",
-              desc: "Savollaringiz bo'lsa, biz bilan bog'lanishingiz mumkin.",
+              title: t("heroCardThreeTitle"),
+              desc: t("heroCardThreeDescr"),
               img: "https://picsum.photos/600/300?random=13",
             },
           ].map((card, i) => (
@@ -221,28 +221,30 @@ export default function Landing() {
                 theme === "dark"
                 ? "bg-gray-600"
                 : "bg-white"
-              }`}
+              } h-full flex flex-col`}
             >
               <img
                 src={card.img}
                 alt={card.title}
                 className="w-full h-48 object-cover"
               />
-              <div className="p-6">
-                <h3 className={`text-2xl font-semibold mb-3 ${
-                  theme === "dark"
-                  ? "text-gray-300"
-                  : "text-gray-800"
-                }`}>
-                  {card.title}
-                </h3>
-                <p className={`mb-4 ${
-                  theme === "dark"
-                  ? "text-gray-300"
-                  : "text-gray-700"
-                }`}>
-                  {card.desc}
-                </p>
+              <div className="flex flex-col justify-between flex-1 p-6">
+                <div>
+                  <h3 className={`text-2xl font-semibold mb-3 ${
+                    theme === "dark"
+                    ? "text-gray-300"
+                    : "text-gray-800"
+                  }`}>
+                    {card.title}
+                  </h3>
+                  <p className={`mb-4 ${
+                    theme === "dark"
+                    ? "text-gray-300"
+                    : "text-gray-700"
+                  }`}>
+                    {card.desc}
+                  </p>
+                </div>
                 <Link
                   to="/dashboard"
                   className={`font-medium hover:underline ${
@@ -251,7 +253,7 @@ export default function Landing() {
                     : "text-indigo-600"
                   }`}
                 >
-                  Batafsil →
+                  {t("heroCardBtn")} →
                 </Link>
               </div>
             </div>
