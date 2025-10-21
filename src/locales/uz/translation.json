@@ -4,7 +4,14 @@
   "login": "Kirish",
   "register": "Ro'yxatdan o'tish",
   "heroTitle": "Bilim.ac platformasiga xush kelibsiz!",
-  "heroDesc": "O‘qish va o‘qitish uchun zamonaviy tizim.",
+  "heroDesc": "O'qish va o'qitish uchun zamonaviy tizim.",
   "start": "Boshlash",
-  "rights": "Barcha huquqlar himoyalangan"
+  "rights": "Barcha huquqlar himoyalangan",
+  "heroCardOneTitle": "Xizmatlar",
+  "heroCardTwoTitle": "Yangiliklar",
+  "heroCardThreeTitle": "Aloqa",
+  "heroCardOneDescr": "Bizning xizmatlarimizdan foydalanib samarali natijalarga erishing.",
+  "heroCardTwoDescr": "So'nggi yangiliklardan doimiy xabardor bo'ling.",
+  "heroCardThreeDescr": "Savollaringiz bo'lsa, biz bilan bog'lanishingiz mumkin.",
+  "heroCardBtn": "Batafsil"
 }
