@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorModal from "../components/ErrorModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import ReCAPTCHA from "react-google-recaptcha";
+import { ThemeContext } from "../components/ThemeContext";
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export default function Login({ setUser }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const SITE_KEY = "6LdyGukrAAAAAJ5b0ogaXisqvlz7AYR9ssgmpwJB";
