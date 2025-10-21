@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import { FaTelegram, FaInstagram, FaGithub, FaLinkedin, FaEyeSlash, FaEye } from "react-icons/fa";
+import { ThemeContext } from "../../components/ThemeContext";
 
 export default function Profile({ user: propUser, setUser }) {
   const [user, setLocalUser] = useState(null);
@@ -29,6 +30,7 @@ export default function Profile({ user: propUser, setUser }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
