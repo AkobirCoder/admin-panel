@@ -5,10 +5,12 @@ import { FiSun, FiMoon, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Flag from "react-world-flags";
 import { ThemeContext } from "../components/ThemeContext";
 import { useLang } from "../components/LangContext";
+import { useTranslation } from "react-i18next";
 
 export default function Landing() {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { lang, setLang, t } = useLang();
+  const { lang, setLang } = useLang();
+  const { t, i18n } = useTranslation();
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const dropdownRef = useRef(null);
@@ -26,6 +28,7 @@ export default function Landing() {
 
   const handleLangChange = (newLang) => {
     setLang(newLang);
+    i18n.changeLanguage(newLang); // ✅ i18next tilini o‘zgartiradi
     setOpenDropdown(false);
   };
 
@@ -58,16 +61,16 @@ export default function Landing() {
 
           <nav className="flex space-x-6 items-center">
             <Link to="/" className="hover:text-indigo-600">
-              {t.home}
+              {t("home")}
             </Link>
             <Link to="/dashboard" className="hover:text-indigo-600">
-              {t.dashboard}
+              {t("dashboard")}
             </Link>
             <Link to="/login" className="hover:text-indigo-600">
-              {t.login}
+              {t("login")}
             </Link>
             <Link to="/register" className="hover:text-indigo-600">
-              {t.register}
+              {t("register")}
             </Link>
 
             {/* Language Dropdown */}
@@ -169,21 +172,21 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center flex-1 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white text-center px-6 py-20">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-          {t.heroTitle}
+          {t("heroTitle")}
         </h1>
-         <p className="max-w-2xl text-lg mb-8 opacity-90">{t.heroDesc}</p>
+         <p className="max-w-2xl text-lg mb-8 opacity-90">{t("heroDesc")}</p>
          <div className="flex space-x-4">
            <Link
             to="/register"
             className="px-6 py-3 bg-white text-indigo-600 rounded-lg font-medium shadow hover:bg-gray-100 transition"
           >
-            {t.start}
+            {t("start")}
           </Link>
           <Link
             to="/login"
             className="px-6 py-3 border border-white rounded-lg font-medium hover:bg-white hover:text-indigo-600 transition"
           >
-            {t.login}
+            {t("login")}
           </Link>
         </div>
       </section>
@@ -286,17 +289,17 @@ export default function Landing() {
       >
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">
-            © {new Date().getFullYear()} {t.rights}
+            © {new Date().getFullYear()} {t("rights")}
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="/dashboard" className="hover:text-white">
-              {t.dashboard}
+              {t("dashboard")}
             </Link>
             <Link to="/login" className="hover:text-white">
-              {t.login}
+              {t("login")}
             </Link>
             <Link to="/register" className="hover:text-white">
-              {t.register}
+              {t("register")}
             </Link>
           </div>
         </div>
